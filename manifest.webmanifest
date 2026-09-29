@@ -1,0 +1,11 @@
+{
+  "name": "JutsuNexus Viewer",
+  "short_name": "JutsuNexus",
+  "description": "Open JutsuNexus technique packages and technique links. Nothing is uploaded.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0E0F11",
+  "theme_color": "#0E0F11",
+  "icons": [{ "src": "icon.png", "sizes": "192x192", "type": "image/png" }]
+}

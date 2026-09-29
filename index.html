@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#0E0F11">
+  <meta name="description" content="Open JutsuNexus technique packages and technique links in your browser. Nothing is uploaded.">
+  <title>JutsuNexus Viewer</title>
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <button class="icon-btn" id="back" type="button" aria-label="Back" hidden>
+      <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path fill="currentColor" d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20z"/></svg>
+    </button>
+    <a class="brand" href="./" id="home-link">JutsuNexus <span>Viewer</span></a>
+    <button class="text-btn" id="open-other" type="button" hidden>Open another</button>
+  </header>
+
+  <nav class="crumbs" id="crumbs" aria-label="Breadcrumb" hidden></nav>
+
+  <main id="main" tabindex="-1"></main>
+
+  <input type="file" id="file-input" accept=".zip,application/zip,application/x-zip-compressed" hidden>
+
+  <div class="lightbox" id="lightbox" hidden>
+    <div class="lightbox-bar">
+      <button class="icon-btn" id="lightbox-close" type="button" aria-label="Close">
+        <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path fill="currentColor" d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+      </button>
+      <span id="lightbox-caption"></span>
+      <span class="spacer"></span>
+      <button class="icon-btn" id="lightbox-prev" type="button" aria-label="Previous">
+        <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path fill="currentColor" d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+      </button>
+      <button class="icon-btn" id="lightbox-next" type="button" aria-label="Next">
+        <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path fill="currentColor" d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+      </button>
+    </div>
+    <div class="lightbox-stage" id="lightbox-stage"></div>
+  </div>
+
+  <script src="pako_inflate.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
