@@ -775,6 +775,29 @@ function renderDirectLink(code) {
       h('a', { href: 'https://ehudsuryano.github.io/jutsunexus-app/' }, 'Get the latest JutsuNexus'), '.'));
 }
 
+/**
+ * A link from the app's "Send by Drive link". The file is in the sender's Google Drive, which won't
+ * let a web page read it, so this hands the whole address to the app, which reads the file id back
+ * out of it and can subscribe to it.
+ */
+function renderDriveLink() {
+  setChrome({ back: false, other: false });
+  $crumbs.hidden = true;
+  document.title = 'Techniques for you · JutsuNexus';
+  const isAndroid = /Android/i.test(navigator.userAgent);
+  fill($main,
+    h('div', { class: 'card add-box' },
+      h('h2', {}, 'Someone shared techniques with you'),
+      h('p', {}, isAndroid
+        ? 'Open this in JutsuNexus 1.4 or newer to add it to your library, or subscribe to get their updates.'
+        : 'This opens in the JutsuNexus app, which is Android only. Open this link on an Android phone.'),
+      isAndroid ? h('div', { class: 'row', style: 'margin-top:12px' },
+        h('a', { class: 'btn block', href: `jutsunexus://open?url=${encodeURIComponent(location.href)}` }, 'Open in JutsuNexus')) : null),
+    h('p', { class: 'section' },
+      'Don’t have the app, or nothing happens? ',
+      h('a', { href: 'https://ehudsuryano.github.io/jutsunexus-app/' }, 'Get the latest JutsuNexus'), '.'));
+}
+
 function renderLink(token) {
   setChrome({ back: false, other: false });
   $crumbs.hidden = true;
@@ -834,6 +857,11 @@ window.addEventListener('popstate', (e) => {
 window.addEventListener('hashchange', boot);
 
 function boot() {
+  const drive = /^#?d1\.([A-Za-z0-9_-]{10,})$/.exec(location.hash);
+  if (drive) {
+    renderDriveLink();
+    return;
+  }
   const direct = /^#?s1\.([0-9a-f]{64})$/.exec(location.hash);
   if (direct) {
     renderDirectLink(direct[1]);
