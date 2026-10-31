@@ -750,6 +750,31 @@ function decodeTechniqueToken(token) {
   };
 }
 
+// --- direct-send links (#s1.…) -------------------------------------------------------------------
+
+/**
+ * A link sent from the app's "Send by link". Messaging apps only make web addresses tappable, so
+ * this page is the step between WhatsApp and the app. The download itself happens in the app,
+ * straight from the sender's phone; the code stays in the fragment, which browsers never send.
+ */
+function renderDirectLink(code) {
+  setChrome({ back: false, other: false });
+  $crumbs.hidden = true;
+  document.title = 'Techniques for you · JutsuNexus';
+  const isAndroid = /Android/i.test(navigator.userAgent);
+  fill($main,
+    h('div', { class: 'card add-box' },
+      h('h2', {}, 'Someone is sending you techniques'),
+      h('p', {}, isAndroid
+        ? 'Open this in JutsuNexus 1.3 or newer to download it straight from the sender’s phone. Their phone has to be online with the send still running.'
+        : 'This comes straight from the sender’s phone into the JutsuNexus app, which is Android only. Open this link on an Android phone.'),
+      isAndroid ? h('div', { class: 'row', style: 'margin-top:12px' },
+        h('a', { class: 'btn block', href: `jutsunexus://receive?c=${code}` }, 'Open in JutsuNexus')) : null),
+    h('p', { class: 'section' },
+      'Don’t have the app, or nothing happens? ',
+      h('a', { href: 'https://ehudsuryano.github.io/jutsunexus-app/' }, 'Get the latest JutsuNexus'), '.'));
+}
+
 function renderLink(token) {
   setChrome({ back: false, other: false });
   $crumbs.hidden = true;
@@ -809,6 +834,11 @@ window.addEventListener('popstate', (e) => {
 window.addEventListener('hashchange', boot);
 
 function boot() {
+  const direct = /^#?s1\.([0-9a-f]{64})$/.exec(location.hash);
+  if (direct) {
+    renderDirectLink(direct[1]);
+    return;
+  }
   const token = /^#?(t1\.[A-Za-z0-9_-]+)/.exec(location.hash);
   if (token) {
     history.replaceState({ view: 'link', token: token[1] }, '', location.href);
